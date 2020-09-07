@@ -1,10 +1,11 @@
 from django.http import HttpResponse, Http404, JsonResponse
+from django.shortcuts import render
 
 from .models import Tweet
 
 
 def home_view(request, *args, **kargs):
-    return HttpResponse('Hello World!')
+    return render(request, template_name="pages/home.html", context={})
 
 
 def tweet_detail_view(request, tweet_id, *args, **kargs):
