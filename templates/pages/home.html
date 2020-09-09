@@ -26,11 +26,17 @@
         const list = document.getElementById('tweets');
         list.innerHTML = '';
         
-        tweets.forEach(tweet => {
+        function createTweetElement(tweet) {
             const element = document.createElement('li');            
             element.textContent = `id: ${tweet.id} -  ${tweet.content}`;
-            list.appendChild(element);
+            element.setAttribute('id', `tweet-${tweet.id}`);
+            return element;            
+        }
+
+        tweets.forEach(tweet => {            
+            list.appendChild(createTweetElement(tweet));
         });
+
     })();
 </script>
 {% endblock %}
