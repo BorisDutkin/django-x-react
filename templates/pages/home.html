@@ -26,10 +26,31 @@
         const list = document.getElementById('tweets');
         list.innerHTML = '';
         
+        function handleLike(id, likes) {
+            console.log(id, likes);
+        }
+
+        function likeButton(id, likes) {            
+            const button = document.createElement('button');
+
+            button.onclick = function() {               
+                handleLike(id, likes);
+            };
+
+            button.classList.add('btn');
+            button.classList.add('btn-primary');            
+            button.style.display = 'block';
+            button.style.margin = '10px 0 20px 0';
+            button.textContent = `${likes} Likes`;
+
+            return button;
+        }
+
         function createTweetElement(tweet) {
             const element = document.createElement('li');            
             element.textContent = `id: ${tweet.id} -  ${tweet.content}`;
-            element.setAttribute('id', `tweet-${tweet.id}`);
+            element.setAttribute('id', `tweet-${tweet.id}`);            
+            element.appendChild(likeButton(tweet.id, tweet.likes));
             return element;            
         }
 
