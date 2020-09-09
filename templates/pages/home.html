@@ -5,9 +5,9 @@
 {% block content%}
 <h1>Welcome to Tweetme2</h1>
 
-<ol id="tweets">
+<ul id="tweets">
     loading...
-</ol>
+</ul>
 
 <script>
     (async function() {
@@ -26,11 +26,11 @@
         const list = document.getElementById('tweets');
         list.innerHTML = '';
         
-        for (let i = 0; i < tweets.length; i++) {
+        tweets.forEach(tweet => {
             const element = document.createElement('li');            
-            element.textContent = tweets[i].content;
+            element.textContent = `id: ${tweet.id} -  ${tweet.content}`;
             list.appendChild(element);
-        }
+        });
     })();
 </script>
 {% endblock %}
