@@ -3,5 +3,34 @@
 {% block head_title %}Home{% endblock %} 
 
 {% block content%}
-<h1>Welcome to Tweetme</h1>
+<h1>Welcome to Tweetme2</h1>
+
+<ol id="tweets">
+    loading...
+</ol>
+
+<script>
+    (async function() {
+        const url = 'http://localhost:8000/tweets/';
+    
+        const response = await fetch(url, {
+            method: 'get',
+            headers: {            
+                'Content-Type': 'application/json'
+            },
+        });
+
+        const parsed = await response.json();
+        const { tweets } = parsed;
+        
+        const list = document.getElementById('tweets');
+        list.innerHTML = '';
+        
+        for (let i = 0; i < tweets.length; i++) {
+            const element = document.createElement('li');            
+            element.textContent = tweets[i].content;
+            list.appendChild(element);
+        }
+    })();
+</script>
 {% endblock %}
