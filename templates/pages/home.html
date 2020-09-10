@@ -3,9 +3,14 @@
 {% block head_title %}Home{% endblock %} 
 
 {% block content%}
-<h1>Welcome to Tweetme2</h1>
 
-<ul id="tweets">
+<div class="row">
+    <div class="col text-center">
+        <h1 class="mb-4">Welcome to Tweetme 2 </h1>
+    </div>
+</div>
+
+<ul class="row" id="tweets">
     loading...
 </ul>
 
@@ -47,10 +52,19 @@
         }
 
         function createTweetElement(tweet) {
-            const element = document.createElement('li');            
+            const element = document.createElement('li');                                    
+
             element.textContent = `id: ${tweet.id} -  ${tweet.content}`;
-            element.setAttribute('id', `tweet-${tweet.id}`);            
+            element.setAttribute('id', `tweet-${tweet.id}`);
+            element.classList.add('col-12');            
+            element.classList.add('col-md-10');            
+            element.classList.add('mx-auto');            
+            element.classList.add('border');  
+            element.classList.add('rounded');  
+            element.classList.add('mb-4');                       
+            element.classList.add('py-3');
             element.appendChild(likeButton(tweet.id, tweet.likes));
+            
             return element;            
         }
 
