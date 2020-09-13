@@ -10,6 +10,17 @@
     </div>
 </div>
 
+<div class="row mb-4">
+    <div class="col-md-4 mx-auto col-10">
+        <form class="form" method="POST" action="/tweets/create/">
+            {% csrf_token %}
+            <input type="hidden" value="/" name="next">
+            <textarea class="form-control" name="content" placeholder="Your tweet..."></textarea>
+            <button type="submit" class="btn btn-primary mt-4">Tweet</button>
+        </form>
+    </div>
+</div>
+
 <ul class="row" id="tweets">
     loading...
 </ul>
