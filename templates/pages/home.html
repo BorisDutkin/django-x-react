@@ -12,7 +12,7 @@
 
 <div class="row mb-4">
     <div class="col-md-4 mx-auto col-10">
-        <form class="form" method="POST" action="/tweets/create/">
+        <form id="tweet-create-form" class="form" method="POST" action="/tweets/create/">
             {% csrf_token %}
             <input type="hidden" value="/" name="next">
             <textarea class="form-control" name="content" placeholder="Your tweet..."></textarea>
@@ -25,10 +25,19 @@
     loading...
 </ul>
 
-<script>
-    (async function() {
+<script>       
+    const list = document.getElementById('tweets');
+    const form = document.getElementById('tweet-create-form');
+
+    function handleTweetCreateFormSubmit(e) {
+        e.preventDefault();        
+    }
+
+    form.addEventListener('submit', handleFormSubmit);
+
+    loadTweets = async (el) => {
         const url = 'http://localhost:8000/tweets/';
-    
+
         const response = await fetch(url, {
             method: 'get',
             headers: {            
@@ -38,51 +47,52 @@
 
         const parsed = await response.json();
         const { tweets } = parsed;
+
+        el.innerHTML = '';
         
-        const list = document.getElementById('tweets');
-        list.innerHTML = '';
-        
-        function handleLike(id, likes) {
-            console.log(id, likes);
-        }
-
-        function likeButton(id, likes) {            
-            const button = document.createElement('button');
-
-            button.onclick = function() {               
-                handleLike(id, likes);
-            };
-
-            button.classList.add('btn');
-            button.classList.add('btn-primary');            
-            button.style.display = 'block';
-            button.style.margin = '10px 0 20px 0';
-            button.textContent = `${likes} Likes`;
-
-            return button;
-        }
-
-        function createTweetElement(tweet) {
-            const element = document.createElement('li');                                    
-
-            element.textContent = `id: ${tweet.id} -  ${tweet.content}`;
-            element.setAttribute('id', `tweet-${tweet.id}`);
-            element.classList.add('col-12');            
-            element.classList.add('col-md-10');            
-            element.classList.add('mx-auto');            
-            element.classList.add('border');  
-            element.classList.add('rounded');  
-            element.classList.add('mb-4');                       
-            element.classList.add('py-3');
-            element.appendChild(likeButton(tweet.id, tweet.likes));
-            
-            return element;            
-        }
-
         tweets.forEach(tweet => {            
-            list.appendChild(createTweetElement(tweet));
+            el.appendChild(this.createTweetElement(tweet));
         });
+    }        
+                    
+    
+    function handleLike(id, likes) {
+        console.log(id, likes);
+    }
 
-    })();
+    function likeButton(id, likes) {            
+        const button = document.createElement('button');
+
+        button.onclick = function() {               
+            handleLike(id, likes);
+        };
+
+        button.classList.add('btn');
+        button.classList.add('btn-primary');            
+        button.style.display = 'block';
+        button.style.margin = '10px 0 20px 0';
+        button.textContent = `${likes} Likes`;
+
+        return button;
+    }
+
+    function createTweetElement(tweet) {
+        const element = document.createElement('li');                                    
+
+        element.textContent = `id: ${tweet.id} -  ${tweet.content}`;
+        element.setAttribute('id', `tweet-${tweet.id}`);
+        element.classList.add('col-12');            
+        element.classList.add('col-md-10');            
+        element.classList.add('mx-auto');            
+        element.classList.add('border');  
+        element.classList.add('rounded');  
+        element.classList.add('mb-4');                       
+        element.classList.add('py-3');
+        element.appendChild(likeButton(tweet.id, tweet.likes));
+        
+        return element;            
+    }       
+
+    loadTweets(list);
 </script>
 {% endblock %}
