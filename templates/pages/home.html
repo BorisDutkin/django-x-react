@@ -15,7 +15,7 @@
         <form id="tweet-create-form" class="form" method="POST" action="/tweets/create/">
             {% csrf_token %}
             <input type="hidden" value="/" name="next">
-            <textarea class="form-control" name="content" placeholder="Your tweet..."></textarea>
+            <textarea required class="form-control" name="content" placeholder="Your tweet..."></textarea>
             <button type="submit" class="btn btn-primary mt-4">Tweet</button>
         </form>
     </div>
@@ -52,7 +52,8 @@
         if (response.status === 201) {
             const parsed = await response.json();
             const tweet = createTweetElement(parsed);
-            list.append(tweet);
+            list.prepend(tweet);      
+            form.reset();      
         }        
     }
 
