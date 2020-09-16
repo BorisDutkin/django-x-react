@@ -49,8 +49,11 @@
             },
         });
 
-        const parsed = await response.json();
-        console.log(parsed);
+        if (response.status === 201) {
+            const parsed = await response.json();
+            const tweet = createTweetElement(parsed);
+            list.append(tweet);
+        }        
     }
 
     form.addEventListener('submit', handleTweetCreateFormSubmit);
