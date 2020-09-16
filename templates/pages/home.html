@@ -42,12 +42,15 @@
         const response = await fetch(endpoint, {
             method,
             body: formData,
-            headers: {                     
+            headers: {     
+                'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest',                
+                'X-Requested-With': 'XMLHttpRequest',                
                 'X-CSRFToken': csrf_token
             },
         });
 
-        loadTweets(list);        
+        const parsed = await response.json();
+        console.log(parsed);
     }
 
     form.addEventListener('submit', handleTweetCreateFormSubmit);
