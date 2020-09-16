@@ -14,10 +14,12 @@
     <div class="col-md-4 mx-auto col-10">
         <form id="tweet-create-form" class="form" method="POST" action="/tweets/create/">
             {% csrf_token %}
+            <div id="message" class="alert alert-danger mt-4 d-none" role="alert"></div>
             <input type="hidden" value="/" name="next">
             <textarea required class="form-control" name="content" placeholder="Your tweet..."></textarea>
             <button type="submit" class="btn btn-primary mt-4">Tweet</button>
         </form>
+
     </div>
 </div>
 
@@ -49,11 +51,22 @@
             },
         });
 
-        if (response.status === 201) {
+        const messageEl = document.getElementById('message');
+
+        if (response.status === 201 && response.ok) {
             const parsed = await response.json();
             const tweet = createTweetElement(parsed);
             list.prepend(tweet);      
             form.reset();      
+            
+            messageEl.classList.add('d-none');
+            messageEl.textContent = '';
+        } else {
+            const error = await response.json();
+            [message] = error.content;
+
+            messageEl.classList.remove('d-none');
+            messageEl.textContent = message;
         }        
     }
 
