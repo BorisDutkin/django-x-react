@@ -63,10 +63,18 @@
             messageEl.textContent = '';
         } else {
             const error = await response.json();
-            [message] = error.content;
 
-            messageEl.classList.remove('d-none');
-            messageEl.textContent = message;
+            if (response.status === 500) {
+                [message] = error.content;
+
+                messageEl.classList.remove('d-none');
+                messageEl.textContent = message;
+            } else {
+                messageEl.classList.remove('d-none');
+                messageEl.textContent = 'You must login!';
+
+                window.location.href = '/login';
+            }
         }        
     }
 
